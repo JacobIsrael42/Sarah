@@ -1,0 +1,10 @@
+create a GitHub account.
+
+go to:
+github.com/JacobIsrael42/Sarah/issues
+
+click on ISSUES (up top)
+
+The click the button: NEW ISSUE
+
+write message
