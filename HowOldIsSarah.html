@@ -122,8 +122,12 @@ var minuteLabel=    document.getElementById( "minuteLabel");
 var secondLabel=    document.getElementById( "secondLabel");
 
 yearLabel.innerHTML = tdYears;
-monthLabel.innerHTML = tdMonths;
-dayLabel.innerHTML = tdDays;
+
+monthLabel.innerHTML = tdMonths > 0 ? tdMonths : "";
+
+dayLabel.innerHTML = tdDays > 0 ? tdDays : "";
+
+
 hourLabel.innerHTML = tdHours > 0 ? tdHours : "";
 minuteLabel.innerHTML = tdMinutes > 0 ? tdMinutes : "";
 secondLabel.innerHTML = 
