@@ -43,76 +43,127 @@ td, th {
 </table>
 
 <script>
-function fillTable() {
-let daysInMonth = [0,31,59,90,120,151,181,212,243,273,304,334];
-let daysInMonthLeap = [0,31,60,91,121,152,182,213,244,274,305,335];
 
-let yearInDays = 365.25;
-/// 365.242189;
+function fillTable() {
+
+let daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+
+let daysInMonthLeap = [31,29,31,30,31,30,31,31,30,31,30,31];
+
+
 var today = Date.now();
+
+
+
+
+
 var theDate = new Date(today);
+
 var theYear = theDate.getFullYear();
 
+
 var yearOver4 = theYear/4.0;
+
 var isLeapYear = yearOver4 -  Math.floor(yearOver4) < 0.1;
 
-var timeNowSeconds = today / 1000.0;
 
-var birthDateString = "04/05/2008 08:30:00";
+
+//■■■■■■■■
+let birthYear = 2008;
+let birthMonth = 4;
+let birthDay = 5;
+let birthHour = 8;
+let birthMinute = 30;
+//■■■■■■■■
+
+
+
+var birthdayString = birthMonth +  "/" + birthDay + "/" + theYear +  " " + birthHour + ":" + birthMinute +  ":00";
+
+
+var tdYears = theYear - birthYear;
+
   var offset = theDate.getTimezoneOffset() / 60;
 
 if(offset<0){
-birthDateString = birthDateString.concat(
+
+birthdayString = birthdayString.concat(
 " GMT+0", -offset  ,"00");
 }
 else{
-birthDateString = birthDateString.concat(
+birthdayString = birthdayString.concat(
 " GMT-0", offset  ,"00");
+
 }
 
-// alert(birthDateString);
 
-var birthDate = new Date(birthDateString);
 
-var timeDifferenceSeconds = timeNowSeconds
- - (birthDate.getTime() /1000.0);
+var lastBirthday = new Date(birthdayString);
 
-// Days
-var temp = timeDifferenceSeconds / (3600*24);
 
-var tdYears = Math.floor(temp/yearInDays);
 
-// Days left
-temp = (temp - tdYears * yearInDays);
+var tdMonths = theDate.getMonth() - lastBirthday.getMonth();
 
-var k = 0;
-var dayCount;
-if( isLeapYear){
-dayCount = daysInMonthLeap;
+
+var temp = 0;
+
+var tdDays = theDate.getDay() - lastBirthday.getDay();
+
+
+
+var tdHours = theDate.getHours() - lastBirthday.getHours();
+
+
+
+var tdMinutes = theDate.getMinutes() - lastBirthday.getMinutes();
+
+
+var tdSeconds = theDate.getSeconds() - lastBirthday.getSeconds();
+
+if( tdMinutes < 0){
+tdMinutes += 60;
+tdHours-- ;
+}
+if( tdHours < 0){
+tdHours += 24;
+tdDays-- ;
+}
+ 
+  if( tdDays < 0){
+
+let theMonth = lastBirthday.getMonth();
+
+
+if(isLeapYear){
+
+tdDays += daysInMonthLeap[theMonth];
 }
 else{
-dayCount = daysInMonth;
+tdDays += daysInMonth[theMonth];
 }
 
-while(temp >=  dayCount[k] ){
-k++;
-if(k >= 12){
-break;
+ tdMonths-- ;
 }
+
+if( tdMonths < 0){
+tdMonths += 12;
+tdYears-- ;
 }
-k-- ;
 
-var tdMonths = k;
 
-temp  -= dayCount[k] ;
 
-var tdDays = Math.floor(temp);
-temp = (temp - tdDays)*24.0 ;
-var tdHours = Math.floor(temp);
-temp = (temp - tdHours) * 60.0;
-var tdMinutes = Math.floor(temp);
-temp = (temp - tdMinutes) * 60.0;
-var tdSeconds = Math.floor(temp);
+
+/*********
+
+alert(" yr  " + tdYears + " Mon " + tdMonths + " Day " + tdDays + " Hr " + tdHours + " Min " + tdMinutes + " sec " + tdSeconds);
+
+************/
+
+
+
+
+
 
  var yearLabel=    document.getElementById( "yearLabel");
 var monthLabel=    document.getElementById( "monthLabel");
@@ -129,6 +180,8 @@ dayLabel.innerHTML = tdDays > 0 ? tdDays : "";
 
 
 hourLabel.innerHTML = tdHours > 0 ? tdHours : "";
+
+
 minuteLabel.innerHTML = tdMinutes > 0 ? tdMinutes : "";
 secondLabel.innerHTML = 
 tdSeconds > 0 ? tdSeconds : "";
@@ -196,16 +249,17 @@ else if(tdHours>0){
 dayText.innerHTML = dayText.innerHTML  +  " and";
 }
 else if(tdDays>0){
-monthText.innerHTML
-= monthText.innerHTML  +  " and";
+monthText.innerHTML = monthText.innerHTML  +  " and";
 }
 else if(tdMonths>0){
-yearText.innerHTML
-= yearText.innerHTML  +  " and";
+yearText.innerHTML = yearText.innerHTML  +  " and";
 }
 
   setTimeout(fillTable,1000) ;
-}
+
+} // end function
+
+
 window.onload=fillTable();
 </script>
 </body>
